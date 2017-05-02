@@ -1,0 +1,53 @@
+
+-----------------
+PLANNER 
+-----------------
+
+`planner` is a small utility to plan course selection when the courses 
+have dependencies. since I did it for myself mainly, it's not awfully
+configurable or smooth, but may still be useful once you understand its 
+input.
+
+The program reads course data from a Sqlite3 database "courses.db" in the 
+current directory. Use any Sqlite utility to examine the scema, since you'll
+have to edit the database anyway if you want to use it for yourself. The 
+current data in the example file represents the advanced-year selection 
+for Mechanical Engineering students in Tel Aviv University, 2005.
+
+Supplementary tables give the semesters when each course is given, and the
+course dependencies.
+
+When running planner, you'll get a vertically-scrollable table whose columns 
+represent semesters, and in each column you'll see boxes for each course
+given in that semester. Each box has 4 minibuttons: those marked 'D' mean
+select (left) or deselect (right) with dependencies. Below them - select 
+without touching the dependencies. When you hit select, the course will 
+light up, and when selecting with dependencies - so will those. the oposite 
+happens on deselect.
+
+
+Building
+--------
+
+This is a Qt4 application, so you'll need the Qt development environment,
+as well as qmake. 
+
+Once you have this, simply type:
+
+  $ qmake
+  $ make
+  $ ./planner
+
+
+Implementation
+--------------
+
+There is a lot in Qt that could be used to make this app's code simpler.
+The current design started in a Qt3 version where those features weren't 
+available. It was also, when first written, my first Qt program, in any 
+language. So there's a lot of improvement possible.
+
+The same caveat goes for the use of C++11 features - they didn't exist in 
+2005 when this was first written, so don;t exdpect to see too many of them.
+Perhaps I'll introduce some later as I use this code as a learning playground.
+
