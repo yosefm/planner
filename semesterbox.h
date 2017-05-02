@@ -4,14 +4,14 @@
 #ifndef SEMESTERBOX_H
 #define SEMESTERBOX_H
 
-#include <qvbox.h>
+#include <QVBoxLayout>
 #include <qlabel.h>
 
 #include "coursecontroller.h"
 #include "trackermap.h"
 #include "course.h"
 
-class SemesterBox : public QVBox {
+class SemesterBox : public QWidget {
 	Q_OBJECT
 private:
 	TrackerMap 	courses_used;
@@ -22,8 +22,8 @@ private:
 public:
 	SemesterBox (QWidget* parent, int Isemester);
 
-	CourseController* newController(Course *Icourse, const char* name = 0, 
-		WFlags fl = 0 );
+	CourseController* newController(Course *Icourse, 
+		Qt::WindowFlags fl = 0 );
 	QSize sizeHint() const { return size(); }
 public slots:
 	void courseSelChanged();

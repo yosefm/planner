@@ -1,25 +1,28 @@
-#include "coursecontrollerbase.h"
-
 #ifndef COURSECONTROLLER_H
 #define COURSECONTROLLER_H
+
+#include <QWidget>
+#include "ui_coursecontrollerbase.h"
 
 class QString;
 class Course;
 
-class CourseController : public CourseControllerBase {
+class CourseController : public QWidget, Ui::CourseControllerBase {
 	Q_OBJECT
 private:
 	Course	*course;
-	int		semester;
+	int	semester;
 	bool	preffered;
 	bool	selected;
+        
+        QColor backgr;
 
 	void	selectSelf();
 	void	deselectSelf();
 
 public:
 	CourseController(Course *Icourse, int semester, QWidget* parent = 0,
-		const char* name = 0, WFlags fl = 0 );
+            Qt::WindowFlags fl = 0 );
 
 	Course* getCourse() const { return course; }
 	void sync();

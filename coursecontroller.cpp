@@ -9,8 +9,12 @@
 //  The signalling is one-way: the controller emits nothing. It calls 
 //  methods directly on the course. 
 CourseController::CourseController(Course *Icourse, int Isemester, 
-		QWidget* parent, const char* name, WFlags fl) : 
-		CourseControllerBase(parent, name, fl) {
+		QWidget* parent, Qt::WindowFlags fl) : 
+		QWidget(parent, fl) {
+        setupUi(this);
+        setAutoFillBackground(true);
+        backgr = palette().color(QPalette::Window);
+        
 	course = Icourse;
 	semester = Isemester;
 	preffered = false;
@@ -30,13 +34,17 @@ void CourseController::sync() {
 
 void CourseController::selectSelf() {
 	selected = true;
-	setPaletteBackgroundColor( QColor("green") );
+        auto pal = palette();
+        pal.setColor(QPalette::Background, Qt::green);
+	setPalette(pal);
 	emit used( course->getNumber(), course->getHours() );
 }
 
 void CourseController::deselectSelf() {
 	selected = false;
-	setPaletteBackgroundColor( QColor("grey") );
+	auto pal = palette();
+        pal.setColor(QPalette::Background, backgr);
+	setPalette(pal);;
 	emit unused( course->getNumber(), course->getHours() );
 }
 
@@ -99,9 +107,13 @@ void CourseController::requestPrefChange() {
 void CourseController::prefChangeRequested(int sem) {
 	if (sem == semester) {
 		preffered = true;
-		btnUseMe->setPaletteBackgroundColor( QColor("yellow") );
+                auto pal = btnUseMe->palette();
+                pal.setColor(QPalette::Background, Qt::yellow);
+		btnUseMe->setPalette(pal);
 	} else {
 		preffered = false;
-		btnUseMe->setPaletteBackgroundColor( QColor("grey") );
+                auto pal = btnUseMe->palette();
+                pal.setColor(QPalette::Background, backgr);
+		btnUseMe->setPalette(pal);
 	}
 }

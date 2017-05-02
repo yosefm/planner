@@ -18,7 +18,7 @@ private:
 	NameToVal	trackees;
 
 public:
-	TrackerMap		(QObject * parent = 0, const char * name = 0) : QObject(parent, name) {}
+	TrackerMap		(QObject * parent = 0) : QObject(parent) {}
 	void removeKey	(QString key); // To add a key, use slot keyUsed.
 	bool isUsed		(QString key) const;
 

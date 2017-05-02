@@ -30,7 +30,7 @@ private slots:
 
 public:
 	PlannerView(CourseVect *courses, QWidget *parent = 0, 
-		const char *name = 0, WFlags f = 0);
+		Qt::WindowFlags f = 0);
 };
 
 #endif

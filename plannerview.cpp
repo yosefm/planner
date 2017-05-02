@@ -1,30 +1,36 @@
 #include <algorithm>
 
-#include <qscrollview.h>
+#include <QtGui>
+#include <QScrollArea>
 #include <qstatusbar.h>
 
 #include "plannerview.h"
 #include "coursecontroller.h"
 
 PlannerView::PlannerView(CourseVect *courses, QWidget *parent,
-	const char *name, WFlags f) : QMainWindow(parent, name, f){
-	QScrollView *sv = new QScrollView( this );
-	sv->setHScrollBarMode( QScrollView::AlwaysOff );
+	Qt::WindowFlags f) : QMainWindow(parent, f)
+{
+	auto *sv = new QScrollArea( this );
+        auto canvas = new QFrame();
+	sv->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 
 	// An HBox to hold semester collumns:
-	QHBox *columns = new QHBox( sv->viewport() );
-	sv->addChild( columns );
+	auto columns = new QHBoxLayout();
+	canvas->setLayout( columns );
 
 	// Prepare the map of column per semester:
 	for (CourseVect::iterator course = courses->begin(); 
 		course != courses->end(); course++) {
-		extractSemesters((*course));
+                extractSemesters((*course));
 	}
 
 	// Create a column for each semester:
+	QWidget *widg;
 	for (NumToCol::iterator sems_iter = sem_cols.begin(); 
 		sems_iter != sem_cols.end(); sems_iter++) {
-		(*sems_iter).second = new SemesterBox(columns, (*sems_iter).first);
+                widg = new QWidget();
+		(*sems_iter).second = new SemesterBox(widg, (*sems_iter).first);
+                columns->addWidget((*sems_iter).second);
 	}
 
 	//Create all relevant controllers:
@@ -62,13 +68,16 @@ PlannerView::PlannerView(CourseVect *courses, QWidget *parent,
 		course_first->requestPrefChange();
 	}
 
-	sv->setResizePolicy(QScrollView::AutoOneFit);
+	//sv->setResizePolicy(QScrollArea::AutoOneFit);
+        sv->setWidget(canvas);
+
 	sv->resize(columns->sizeHint().width() + sv->verticalScrollBar()->width(),
 		 PV_DEFAULT_HEIGHT);
 	setCentralWidget( sv );
 	resize(sv->size());
+        sv->widget()->show();
 
-	statusBar()->message("Hours: 0");
+	statusBar()->showMessage("Hours: 0");
 }
 
 void PlannerView::extractSemesters(Course *course) {
@@ -80,5 +89,5 @@ void PlannerView::extractSemesters(Course *course) {
 }
 
 void PlannerView::statusUpdated() {
-		statusBar()->message( "Hours: " + QString::number(hours_count.total()) );
+		statusBar()->showMessage( "Hours: " + QString::number(hours_count.total()) );
 }

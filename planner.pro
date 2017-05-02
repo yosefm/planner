@@ -4,10 +4,11 @@
 
 TEMPLATE = app
 INCLUDEPATH += .
-CONFIG = qt warn_on debug
+CONFIG += qt warn_on debug
+QT += sql gui qt3support
 
 # Input
 HEADERS += course.h coursecontroller.h trackermap.h semesterbox.h plannerview.h
-INTERFACES += coursecontrollerbase.ui
+FORMS += coursecontrollerbase.ui
 SOURCES += course.cpp coursecontroller.cpp trackermap.cpp semesterbox.cpp \
-	plannerview.cpp planner.cpp
+	plannerview.cpp planner.cpp 

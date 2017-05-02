@@ -9,7 +9,6 @@
 
 #include <qobject.h>
 #include <qstring.h>
-#include <qptrlist.h>
 
 #include <vector>
 #include <functional>
